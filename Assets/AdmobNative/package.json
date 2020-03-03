@@ -1,0 +1,8 @@
+{
+    "name": "com.github.fanhexin.admobnative",
+    "displayName": "AdmobNative",
+    "version": "1.0.0",
+    "unity": "2018.4",
+    "description": "Admob Native Ad's wrapper.",
+    "keywords": ["admob", "nativead", "ad"]
+}
