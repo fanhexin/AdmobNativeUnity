@@ -1,5 +1,6 @@
 using System.IO;
 using UnityEditor;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 namespace AdmobNative.Editor
@@ -7,8 +8,9 @@ namespace AdmobNative.Editor
     [InitializeOnLoad]
     public class Setup
     {
-        private const string FILE_PATH = "Assets/Editor/Dependencies.xml";
+        private const string DEPENDENCIES_PATH = "Assets/Editor/AdmobNativeDependencies.xml";
         private const string PROGUARD_PATH = "Assets/Plugins/Android/proguard-user.txt";
+        private const string PACKAGE_PATH = "Packages/com.github.fanhexin.admobnative";
         
         static Setup()
         {
@@ -18,16 +20,21 @@ namespace AdmobNative.Editor
 
         static void SetupDependencies()
         {
-            if (File.Exists(FILE_PATH))
+            if (File.Exists(DEPENDENCIES_PATH))
             {
                 return;
             }
 
-            string fileName = Path.GetFileNameWithoutExtension(FILE_PATH);
-            string content = Resources.Load<TextAsset>(fileName).text;
-            string dirName = Path.GetDirectoryName(FILE_PATH);
+            string pkgFilePath = Path.Combine(PACKAGE_PATH, "Dependencies.xml");
+            TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(pkgFilePath);
+            if (textAsset == null)
+            {
+                return;
+            }
+            
+            string dirName = Path.GetDirectoryName(DEPENDENCIES_PATH);
             Directory.CreateDirectory(dirName);
-            File.WriteAllText(Path.Combine(dirName, $"AdmobNative{fileName}.xml"), content);
+            File.WriteAllText(DEPENDENCIES_PATH, textAsset.text);
             AssetDatabase.Refresh();
         }
 
@@ -37,16 +44,21 @@ namespace AdmobNative.Editor
             {
                 return;
             }
+            
+            string pkgFilePath = Path.Combine(PACKAGE_PATH, "proguard-user.txt");
+            TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(pkgFilePath);
+            if (textAsset == null)
+            {
+                return;
+            }
 
-            string fileName = Path.GetFileNameWithoutExtension(PROGUARD_PATH);
-            string configContent = Resources.Load<TextAsset>(fileName).text;
             string localContent = File.ReadAllText(PROGUARD_PATH);
-            if (localContent.Contains(configContent))
+            if (localContent.Contains(textAsset.text))
             {
                 return;
             }
             
-            File.WriteAllText(PROGUARD_PATH, $"{localContent}\n{configContent}");
+            File.WriteAllText(PROGUARD_PATH, $"{localContent}\n{textAsset.text}");
         }
     }
 }
