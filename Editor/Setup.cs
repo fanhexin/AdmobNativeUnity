@@ -10,7 +10,7 @@ namespace AdmobNative.Editor
     {
         private const string DEPENDENCIES_PATH = "Assets/Editor/AdmobNativeDependencies.xml";
         private const string PROGUARD_PATH = "Assets/Plugins/Android/proguard-user.txt";
-        private const string PACKAGE_PATH = "Packages/com.github.fanhexin.admobnative";
+        private const string PACKAGE_EDITOR_PATH = "Packages/com.github.fanhexin.admobnative/Editor";
         
         static Setup()
         {
@@ -25,7 +25,7 @@ namespace AdmobNative.Editor
                 return;
             }
 
-            string pkgFilePath = Path.Combine(PACKAGE_PATH, "Dependencies.xml");
+            string pkgFilePath = Path.Combine(PACKAGE_EDITOR_PATH, "Dependencies.xml");
             TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(pkgFilePath);
             if (textAsset == null)
             {
@@ -45,7 +45,7 @@ namespace AdmobNative.Editor
                 return;
             }
             
-            string pkgFilePath = Path.Combine(PACKAGE_PATH, "proguard-user.txt");
+            string pkgFilePath = Path.Combine(PACKAGE_EDITOR_PATH, "proguard-user.txt");
             TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(pkgFilePath);
             if (textAsset == null)
             {
