@@ -1,15 +1,12 @@
 {
-    "name": "AdmobNative",
+    "name": "AdmobNative.Android",
     "references": [
-        "AdmobNative.Common",
-        "AdmobNative.Android",
-        "AdmobNative.iOS"
+        "AdmobNative.Common"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [
         "Android",
-        "Editor",
-        "iOS"
+        "Editor"
     ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
