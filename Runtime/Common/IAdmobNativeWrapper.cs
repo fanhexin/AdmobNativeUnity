@@ -5,6 +5,8 @@ namespace AdmobNative.Common
     public interface IAdmobNativeWrapper
     {
         event Action<int> OnAdLoadFailed;
+        event Action OnAdLoadSuccessful;
+        
         bool isReady { get; }
         void Init(Action completeCb);
         void Load();

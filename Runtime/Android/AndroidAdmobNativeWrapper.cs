@@ -7,6 +7,7 @@ namespace AdmobNative.Android
     public class AndroidAdmobNativeWrapper : IAdmobNativeWrapper
     {
         public event Action<int> OnAdLoadFailed;
+        public event Action OnAdLoadSuccessful;
         
         private readonly AndroidJavaObject _adService;
 
@@ -22,7 +23,9 @@ namespace AdmobNative.Android
         public void Init(Action completeCb)
         {
             _adService.Call("init", new OnInitializationCompleteListener(completeCb));        
-            _adService.Call("setAdFailedListener", new AdFailedListener(err => OnAdLoadFailed?.Invoke(err)));     
+            _adService.Call("setAdLoadListener", new AdLoadListener(
+                () => OnAdLoadSuccessful?.Invoke(), 
+                err => OnAdLoadFailed?.Invoke(err)));     
         }
 
         public void Load()
@@ -56,19 +59,26 @@ namespace AdmobNative.Android
             }
         }
 
-        class AdFailedListener : AndroidJavaProxy 
+        class AdLoadListener : AndroidJavaProxy 
         {
-            private readonly Action<int> _callback;
+            private readonly Action _onSucceedCb;
+            private readonly Action<int> _onErrorCb;
 
-            public AdFailedListener(Action<int> callback) 
-                : base("com.hpc.admobnative.AdFailedListener")
+            public AdLoadListener(Action onSucceedCb, Action<int> onErrorCb) 
+                : base("com.hpc.admobnative.AdLoadListener")
             {
-                _callback = callback;
+                _onSucceedCb = onSucceedCb;
+                _onErrorCb = onErrorCb;
             }
 
             void onError(int errorCode)
             {
-                _callback?.Invoke(errorCode);    
+                _onErrorCb?.Invoke(errorCode);    
+            }
+
+            void onSucceed()
+            {
+                _onSucceedCb?.Invoke();    
             }
         }
     }
