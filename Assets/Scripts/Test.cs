@@ -14,17 +14,17 @@ public class Test : MonoBehaviour
     [SerializeField] private Button _hideBtn;
     [SerializeField] private RectTransform _canvas;
 
-    private AdServiceWrapper _adService;
+    private AdmobNativeWrapper _admobNative;
 
     void Start()
     {
         _showBtn.onClick.AddListener(OnShowBtnClick);
         _hideBtn.onClick.AddListener(OnHideBtnClick);
         
-        _adService = new AdServiceWrapper(_adUnitId);     
-        _adService.Init(() =>
+        _admobNative = new AdmobNativeWrapper(_adUnitId);     
+        _admobNative.Init(() =>
         {
-            _adService.Load();
+            _admobNative.Load();
         });
         
         InvokeRepeating("UpdateShowBtnState", 0, 2);
@@ -32,17 +32,17 @@ public class Test : MonoBehaviour
 
     private void OnHideBtnClick()
     {
-        _adService.Hide();
-        _adService.Load();
+        _admobNative.Hide();
+        _admobNative.Load();
     }
 
     void UpdateShowBtnState()
     {
-        _showBtn.interactable = _adService.isReady;
+        _showBtn.interactable = _admobNative.isReady;
     }
 
     private void OnShowBtnClick()
     {
-        _adService.Show(_canvas, _nativeAdPlaceholder);
+        _admobNative.Show(_canvas, _nativeAdPlaceholder);
     }
 }

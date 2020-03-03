@@ -1,18 +1,18 @@
 ﻿using System;
+using AdmobNative.Common;
 using UnityEngine;
 
-namespace AdmobNative
+namespace AdmobNative.Android
 {
-    public class AdServiceWrapper
+    public class AndroidAdmobNativeWrapper : IAdmobNativeWrapper
     {
         public event Action<int> OnAdLoadFailed;
         
         private readonly AndroidJavaObject _adService;
-        readonly Vector3[] _corners = new Vector3[4];
 
         public bool isReady => _adService.Call<bool>("isReady");
 
-        public AdServiceWrapper(string adUnitId)
+        public AndroidAdmobNativeWrapper(string adUnitId)
         {
             AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             var curActivity = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity");
@@ -33,22 +33,6 @@ namespace AdmobNative
         public void Show(int x, int y, int width, int height)
         {
             _adService.Call("show", x, y, width, height);    
-        }
-
-        public void Show(RectTransform canvas, RectTransform adPlaceholder)
-        {
-            adPlaceholder.GetWorldCorners(_corners);
-            Vector2 bottomLeft = canvas.InverseTransformPoint(_corners[0]);
-            
-            float canvasWidth = canvas.rect.width;
-            float canvasHeight = canvas.rect.height;
-            
-            int x = (int) ((canvasWidth / 2 - Mathf.Abs(bottomLeft.x)) / canvasWidth * Screen.width);
-            int y = (int) ((canvasHeight / 2 - Mathf.Abs(bottomLeft.y)) / canvasHeight * Screen.height);
-            int width = (int) (adPlaceholder.rect.width / canvasWidth * Screen.width);
-            int height = (int) (adPlaceholder.rect.height / canvasHeight * Screen.height);
-            
-            Show(x, y, width, height);
         }
 
         public void Hide()
