@@ -11,7 +11,13 @@ namespace AdmobNative
             add => _wrapper.OnAdLoadFailed += value;
             remove => _wrapper.OnAdLoadFailed -= value;
         }
-        
+
+        public event Action OnAdLoadSuccessful
+        {
+            add => _wrapper.OnAdLoadSuccessful += value;
+            remove => _wrapper.OnAdLoadSuccessful -= value;
+        }
+
         public bool isReady => _wrapper.isReady;
 
         private readonly IAdmobNativeWrapper _wrapper;
