@@ -7,7 +7,7 @@ namespace AdmobNative
     {
         private static Vector3[] _corners;
         
-        public static void Show(this IAdmobNativeWrapper wrapper, RectTransform canvas, RectTransform adPlaceholder)
+        public static void Show(this IAdmobNativeWrapper wrapper, RectTransform canvas, RectTransform adPlaceholder, Color color)
         {
             if (_corners == null)
             {
@@ -25,7 +25,12 @@ namespace AdmobNative
             int width = (int) (adPlaceholder.rect.width / canvasWidth * Screen.width);
             int height = (int) (adPlaceholder.rect.height / canvasHeight * Screen.height);
             
-            wrapper.Show(x, y, width, height);
+            wrapper.Show(x, y, width, height, color);
+        }
+
+        public static void Show(this IAdmobNativeWrapper wrapper, RectTransform canvas, RectTransform adPlaceholder)
+        {
+            wrapper.Show(canvas, adPlaceholder, Color.white);
         }
     }
 }

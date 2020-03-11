@@ -1,6 +1,11 @@
 using System;
-using AdmobNative.Android;
 using AdmobNative.Common;
+using UnityEngine;
+#if UNITY_ANDROID
+using AdmobNative.Android;
+#elif UNITY_IOS
+using AdmobNative.iOS;
+#endif
 
 namespace AdmobNative
 {
@@ -27,6 +32,7 @@ namespace AdmobNative
 #if UNITY_ANDROID            
             _wrapper = new AndroidAdmobNativeWrapper(adUnitId);
 #elif UNITY_IOS
+            _wrapper = new iOSAdmobNativeWrapper(adUnitId);
 #endif
         }
         
@@ -43,6 +49,11 @@ namespace AdmobNative
         public void Show(int x, int y, int width, int height)
         {
             _wrapper.Show(x, y, width, height);
+        }
+
+        public void Show(int x, int y, int width, int height, Color color)
+        {
+            _wrapper.Show(x, y, width, height, color);    
         }
 
         public void Hide()
