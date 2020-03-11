@@ -6,6 +6,9 @@ public class Test : MonoBehaviour
 {
     [SerializeField]
     private string _adUnitId;
+
+    [SerializeField]
+    private string _iOSUnitId;
     
     [SerializeField]
     private RectTransform _nativeAdPlaceholder;
@@ -21,7 +24,14 @@ public class Test : MonoBehaviour
         _showBtn.onClick.AddListener(OnShowBtnClick);
         _hideBtn.onClick.AddListener(OnHideBtnClick);
         
+#if UNITY_ANDROID
         _admobNative = new AdmobNativeWrapper(_adUnitId);     
+#elif UNITY_IOS
+        _admobNative = new AdmobNativeWrapper(_iOSUnitId);     
+#endif
+        _admobNative.OnAdLoadSuccessful += () => Debug.Log("UnityAdmobNative ad load successful!");
+        _admobNative.OnAdLoadFailed += errCode => Debug.Log($"UnityAdmobNative ad load failed {errCode}!");
+        
         _admobNative.Init(() =>
         {
             _admobNative.Load();
@@ -43,6 +53,6 @@ public class Test : MonoBehaviour
 
     private void OnShowBtnClick()
     {
-        _admobNative.Show(_canvas, _nativeAdPlaceholder);
+        _admobNative.Show(_canvas, _nativeAdPlaceholder, Color.green);
     }
 }

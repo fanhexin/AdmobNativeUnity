@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.392}
+  m_Color: {r: 1, g: 1, b: 1, a: 0.5019608}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -201,6 +201,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _adUnitId: ca-app-pub-3940256099942544/2247696110
+  _iOSUnitId: ca-app-pub-3940256099942544/3986624511
   _nativeAdPlaceholder: {fileID: 1405587598}
   _showBtn: {fileID: 985324179}
   _hideBtn: {fileID: 2082694403}
@@ -642,7 +643,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0, y: 214.59998}
+  m_AnchoredPosition: {x: 0, y: 214.59961}
   m_SizeDelta: {x: 400, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &985324179
@@ -752,8 +753,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -68.80078, y: -249}
-  m_SizeDelta: {x: -237.7, y: -1413.3}
+  m_AnchoredPosition: {x: 0.0000019073486, y: 0}
+  m_SizeDelta: {x: -100, y: -1413.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2082694401
 GameObject:

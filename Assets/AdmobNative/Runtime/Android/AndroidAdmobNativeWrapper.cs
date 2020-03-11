@@ -35,7 +35,12 @@ namespace AdmobNative.Android
 
         public void Show(int x, int y, int width, int height)
         {
-            _adService.Call("show", x, y, width, height);    
+            Show(x, y, width, height, Color.white);
+        }
+
+        public void Show(int x, int y, int width, int height, Color color)
+        {
+            _adService.Call("show", x, y, width, height, $"#{ColorUtility.ToHtmlStringRGB(color)}");
         }
 
         public void Hide()
