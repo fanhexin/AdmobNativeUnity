@@ -108,7 +108,13 @@ nativeCachedNumber:(int)nativeCachedNumber
     _showAdIndex = -1;
     _isAdShowing = false;
     
-    NSArray *nibObjects = [[NSBundle mainBundle] loadNibNamed:@"UnifiedNativeAdView" owner:nil options:nil];
+    NSBundle *bundle = [NSBundle mainBundle];
+    if (![bundle pathForResource:@"UnifiedNativeAdView" ofType:@"xib"])
+    {
+        bundle = [NSBundle bundleWithIdentifier:@"com.unity3d.framework"];
+    }
+        
+    NSArray *nibObjects = [bundle loadNibNamed:@"UnifiedNativeAdView" owner:nil options:nil];
     
     self.myView = (GADUnifiedNativeAdView *)nibObjects.firstObject;
     [UnityGetGLView() addSubview:self.myView];
