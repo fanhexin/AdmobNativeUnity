@@ -5,12 +5,6 @@ using UnityEngine.UI;
 public class Test : MonoBehaviour
 {
     [SerializeField]
-    private string _adUnitId;
-
-    [SerializeField]
-    private string _iOSUnitId;
-    
-    [SerializeField]
     private RectTransform _nativeAdPlaceholder;
 
     [SerializeField] private Button _showBtn;
@@ -24,11 +18,7 @@ public class Test : MonoBehaviour
         _showBtn.onClick.AddListener(OnShowBtnClick);
         _hideBtn.onClick.AddListener(OnHideBtnClick);
         
-#if UNITY_ANDROID
-        _admobNative = new AdmobNativeWrapper(_adUnitId);     
-#elif UNITY_IOS
-        _admobNative = new AdmobNativeWrapper(_iOSUnitId);     
-#endif
+        _admobNative = new AdmobNativeWrapper();     
         _admobNative.OnAdLoadSuccessful += () => Debug.Log("UnityAdmobNative ad load successful!");
         _admobNative.OnAdLoadFailed += errCode => Debug.Log($"UnityAdmobNative ad load failed {errCode}!");
         
