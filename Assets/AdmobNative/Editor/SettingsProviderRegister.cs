@@ -7,7 +7,7 @@ namespace AdmobNative.Editor
         [SettingsProvider]
         public static SettingsProvider CreateSettingsProvider()
         {
-            var provider = new SettingsProvider("Project/AdmobNative")
+            var provider = new SettingsProvider("Project/AdmobNative", SettingsScope.Project)
             {
                 label = "AdmobNative",
                 guiHandler = context =>
