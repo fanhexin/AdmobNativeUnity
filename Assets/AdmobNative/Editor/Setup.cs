@@ -11,12 +11,29 @@ namespace AdmobNative.Editor
         private const string DEPENDENCIES_PATH = "Assets/Editor/AdmobNativeDependencies.xml";
         private const string PROGUARD_PATH = "Assets/Plugins/Android/proguard-user.txt";
         private const string RESOURCES_PATH = "Assets/Resources";
+        private const string IOS_PLUGIN_PATH = "Assets/Plugins/iOS";
         
         static Setup()
         {
             SetupDependencies();
             SetupProguard();
             CreateSettings();
+            CopyiOSNibFile();
+        }
+
+        private static void CopyiOSNibFile()
+        {
+            string xib = "UnifiedNativeAdView.xib";
+            string destPath = Path.Combine(IOS_PLUGIN_PATH, xib);
+            if (File.Exists(destPath))
+            {
+                return;
+            }
+            
+            Directory.CreateDirectory(IOS_PLUGIN_PATH);
+            string path = Path.Combine(PACKAGE_PATH, "Editor", xib);
+            File.Copy(path, destPath);
+            AssetDatabase.Refresh();
         }
 
         static void SetupDependencies()
