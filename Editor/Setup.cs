@@ -1,6 +1,5 @@
 using System.IO;
 using UnityEditor;
-using UnityEditor.Experimental;
 using UnityEngine;
 
 namespace AdmobNative.Editor
@@ -8,14 +7,16 @@ namespace AdmobNative.Editor
     [InitializeOnLoad]
     public class Setup
     {
+        public const string PACKAGE_PATH = "Packages/com.github.fanhexin.admobnative";
         private const string DEPENDENCIES_PATH = "Assets/Editor/AdmobNativeDependencies.xml";
         private const string PROGUARD_PATH = "Assets/Plugins/Android/proguard-user.txt";
-        private const string PACKAGE_EDITOR_PATH = "Packages/com.github.fanhexin.admobnative/Editor";
+        private const string RESOURCES_PATH = "Assets/Resources";
         
         static Setup()
         {
             SetupDependencies();
             SetupProguard();
+            CreateSettings();
         }
 
         static void SetupDependencies()
@@ -25,7 +26,7 @@ namespace AdmobNative.Editor
                 return;
             }
 
-            string pkgFilePath = Path.Combine(PACKAGE_EDITOR_PATH, "Dependencies.xml");
+            string pkgFilePath = Path.Combine(PACKAGE_PATH, "Editor", "Dependencies.xml");
             TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(pkgFilePath);
             if (textAsset == null)
             {
@@ -45,7 +46,7 @@ namespace AdmobNative.Editor
                 return;
             }
             
-            string pkgFilePath = Path.Combine(PACKAGE_EDITOR_PATH, "proguard-user.txt");
+            string pkgFilePath = Path.Combine(PACKAGE_PATH, "Editor", "proguard-user.txt");
             TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(pkgFilePath);
             if (textAsset == null)
             {
@@ -59,6 +60,21 @@ namespace AdmobNative.Editor
             }
             
             File.WriteAllText(PROGUARD_PATH, $"{localContent}\n{textAsset.text}");
+        }
+        
+        private static void CreateSettings()
+        {
+            string path = Path.Combine(RESOURCES_PATH, $"{Settings.FILE_NAME}.asset");
+            if (File.Exists(path))
+            {
+                return;
+            }
+
+            Directory.CreateDirectory(RESOURCES_PATH);
+            var settings = ScriptableObject.CreateInstance<Settings>();
+            AssetDatabase.CreateAsset(settings, path);
+            AssetDatabase.Refresh();
+            SettingsWindow.Show(settings);
         }
     }
 }

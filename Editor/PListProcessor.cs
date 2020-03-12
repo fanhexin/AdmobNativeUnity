@@ -1,7 +1,6 @@
 #if UNITY_IOS
-
 using System.IO;
-
+using AdmobNative;
 using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEditor.iOS.Xcode;
@@ -17,10 +16,9 @@ public static class PListProcessor
 		plist.ReadFromFile(plistPath);
 
 		PlistElementDict rootDict = plist.root;
-		rootDict.SetString("GADApplicationIdentifier", "ca-app-pub-2510469495062387~5983277976");
+		rootDict.SetString("GADApplicationIdentifier", Settings.instance.iOS.appId);
 		
 		plist.WriteToFile(plistPath);
     }
 }
-
 #endif

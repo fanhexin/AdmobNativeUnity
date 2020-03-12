@@ -1,7 +1,7 @@
 {
     "name": "AdmobNative.Editor",
     "references": [
-        "Unity.PackageManagerUI.Editor"
+        "AdmobNative"
     ],
     "optionalUnityReferences": [],
     "includePlatforms": [

@@ -27,12 +27,12 @@ namespace AdmobNative
 
         private readonly IAdmobNativeWrapper _wrapper;
 
-        public AdmobNativeWrapper(string adUnitId)
+        public AdmobNativeWrapper()
         {
 #if UNITY_ANDROID            
-            _wrapper = new AndroidAdmobNativeWrapper(adUnitId);
+            _wrapper = new AndroidAdmobNativeWrapper(Settings.instance.android.unitId);
 #elif UNITY_IOS
-            _wrapper = new iOSAdmobNativeWrapper(adUnitId);
+            _wrapper = new iOSAdmobNativeWrapper(Settings.instance.iOS.unitId);
 #endif
         }
         
