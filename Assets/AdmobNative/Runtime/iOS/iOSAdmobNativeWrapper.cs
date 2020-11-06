@@ -7,14 +7,16 @@ namespace AdmobNative.iOS
 {
     public class iOSAdmobNativeWrapper : IAdmobNativeWrapper
     {
-        private readonly string _adUnitId;
-        public event Action<int> OnAdLoadFailed;
+        readonly string[] _unitIds;
+        readonly int _numOfAdsToLoad;
+        public event Action<string> OnAdLoadFailed;
         public event Action OnAdLoadSuccessful;
         public bool isReady => is_ready();
 
-        public iOSAdmobNativeWrapper(string adUnitId)
+        public iOSAdmobNativeWrapper(string[] unitIds, int numOfAdsToLoad)
         {
-            _adUnitId = adUnitId;
+            _unitIds = unitIds;
+            _numOfAdsToLoad = numOfAdsToLoad;
             var go = new GameObject("iOSAdmobNativeEventListener");
             var eventListener = go.AddComponent<EventListener>();
             eventListener.OnAdLoadFailed += errorCode => OnAdLoadFailed?.Invoke(errorCode);
@@ -26,7 +28,7 @@ namespace AdmobNative.iOS
         
         public void Init(Action completeCb)
         {
-            init(_adUnitId, false);
+            init(string.Join(",", _unitIds), true, _numOfAdsToLoad);
             completeCb?.Invoke(); 
         }
 
@@ -37,12 +39,6 @@ namespace AdmobNative.iOS
 
         public void Show(int x, int y, int width, int height)
         {
-            Show(x, y, width, height, Color.white);
-        }
-
-        public void Show(int x, int y, int width, int height, Color color)
-        {
-            set_background_color(color.r, color.g, color.b, color.a); 
             show(x, y, width, height);
         }
 
@@ -52,24 +48,21 @@ namespace AdmobNative.iOS
         }
         
         [DllImport("__Internal")]
-        private static extern void init(string unitId, bool videoMuteAtBegin);
+        static extern void init(string unitIds, bool videoMuteAtBegin, int numOfAdsToLoad);
 
         [DllImport("__Internal")]
-        private static extern bool is_ready();
+        static extern bool is_ready();
         
         [DllImport("__Internal")]
-        private static extern void load();
+        static extern void load();
 
         [DllImport("__Internal")]
-        private static extern bool show(float x, float y, float width, float height);
+        static extern bool show(float x, float y, float width, float height);
 
         [DllImport("__Internal")]
-        private static extern bool hide();    
+        static extern bool hide();    
         
         [DllImport("__Internal")]
-        private static extern void add_event_listener(string goName, string loadSuccessfulTriggerName, string loadFailedTriggerName);
-
-        [DllImport("__Internal")]
-        private static extern void set_background_color(float r, float g, float b, float a);
+        static extern void add_event_listener(string goName, string loadSuccessfulTriggerName, string loadFailedTriggerName);
     }
 }

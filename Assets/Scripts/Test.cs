@@ -4,14 +4,13 @@ using UnityEngine.UI;
 
 public class Test : MonoBehaviour
 {
-    [SerializeField]
-    private RectTransform _nativeAdPlaceholder;
+    [SerializeField] RectTransform _nativeAdPlaceholder;
 
-    [SerializeField] private Button _showBtn;
-    [SerializeField] private Button _hideBtn;
-    [SerializeField] private RectTransform _canvas;
+    [SerializeField] Button _showBtn;
+    [SerializeField] Button _hideBtn;
+    [SerializeField] RectTransform _canvas;
 
-    private AdmobNativeWrapper _admobNative;
+    AdmobNativeWrapper _admobNative;
 
     void Start()
     {
@@ -30,7 +29,7 @@ public class Test : MonoBehaviour
         InvokeRepeating("UpdateShowBtnState", 0, 2);
     }
 
-    private void OnHideBtnClick()
+    void OnHideBtnClick()
     {
         _admobNative.Hide();
         _admobNative.Load();
@@ -41,8 +40,8 @@ public class Test : MonoBehaviour
         _showBtn.interactable = _admobNative.isReady;
     }
 
-    private void OnShowBtnClick()
+    void OnShowBtnClick()
     {
-        _admobNative.Show(_canvas, _nativeAdPlaceholder, Color.green);
+        _admobNative.Show(_canvas, _nativeAdPlaceholder);
     }
 }

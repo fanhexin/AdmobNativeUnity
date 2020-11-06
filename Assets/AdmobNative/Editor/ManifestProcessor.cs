@@ -67,7 +67,7 @@ public class ManifestProcessor : IPreprocessBuild
                 .Where(elem => elem.Name.LocalName.Equals("meta-data"));
 
             XElement elemAdMobEnabled = GetMetaElement(metas, META_APPLICATION_ID);
-            string appId = Settings.instance.android.appId;
+            string appId = Settings.instance.appId;
             if (!string.IsNullOrEmpty(appId))
             {
 

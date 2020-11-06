@@ -5,7 +5,7 @@ namespace AdmobNative.iOS
 {
     public class EventListener : MonoBehaviour
     {
-        public event Action<int> OnAdLoadFailed;
+        public event Action<string> OnAdLoadFailed;
         public event Action OnAdLoadSuccessful;
 
         private void Awake()
@@ -13,9 +13,9 @@ namespace AdmobNative.iOS
             DontDestroyOnLoad(this);
         }
 
-        public void TriggerOnAdLoadFailed(int errorCode)
+        public void TriggerOnAdLoadFailed(string errorMsg)
         {
-            OnAdLoadFailed?.Invoke(errorCode);
+            OnAdLoadFailed?.Invoke(errorMsg);
         }
 
         public void TriggerOnAdLoadSuccessful()

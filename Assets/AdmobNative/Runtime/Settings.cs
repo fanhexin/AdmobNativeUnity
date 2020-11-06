@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 namespace AdmobNative
@@ -6,7 +5,7 @@ namespace AdmobNative
     public class Settings : ScriptableObject
     {
         public const string FILE_NAME = "AdmobNativeSettings";
-        private static Settings _instance;
+        static Settings _instance;
 
         public static Settings instance
         {
@@ -20,21 +19,13 @@ namespace AdmobNative
                 return _instance;
             }
         }
-        
-        [Serializable]
-        public class Item
-        {
-            [SerializeField] private string _appId;
-            [SerializeField] private string _unitId;
 
-            public string appId => _appId;
-            public string unitId => _unitId;
-        }
+        [SerializeField] string _appId;
+        [SerializeField] string[] _unitIds;
+        [SerializeField] int _numOfAdsToLoad;
 
-        [SerializeField] private Item _android;
-        [SerializeField] private Item _iOS;
-
-        public Item android => _android;
-        public Item iOS => _iOS;
+        public string appId => _appId;
+        public string[] unitIds => _unitIds;
+        public int numOfAdsToLoad => _numOfAdsToLoad;
     }
 }

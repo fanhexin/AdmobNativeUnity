@@ -7,15 +7,15 @@ namespace AdmobNative.Editor
     [InitializeOnLoad]
     public class Setup
     {
-        public const string PACKAGE_PATH = "Packages/com.github.fanhexin.admobnative";
-        private const string DEPENDENCIES_PATH = "Assets/Editor/AdmobNativeDependencies.xml";
-        private const string PROGUARD_PATH = "Assets/Plugins/Android/proguard-user.txt";
-        private const string RESOURCES_PATH = "Assets/Resources";
+        const string PACKAGE_PATH = "Packages/com.hpc.admobnative";
+        const string DEPENDENCIES_PATH = "Assets/Editor/AdmobNativeDependencies.xml";
+        const string RES_LIB_PATH = "Assets/Plugins/Android/AdmobNativeResLib";
+        const string RESOURCES_PATH = "Assets/Resources";
         
         static Setup()
         {
             SetupDependencies();
-            SetupProguard();
+            CopyResLib();
             CreateSettings();
         }
 
@@ -39,30 +39,24 @@ namespace AdmobNative.Editor
             AssetDatabase.Refresh();
         }
 
-        static void SetupProguard()
+        static void CopyResLib()
         {
-            if (!File.Exists(PROGUARD_PATH))
+            if (AssetDatabase.IsValidFolder(RES_LIB_PATH))
             {
+                
                 return;
             }
-            
-            string pkgFilePath = Path.Combine(PACKAGE_PATH, "Editor", "proguard-user.txt");
-            TextAsset textAsset = AssetDatabase.LoadAssetAtPath<TextAsset>(pkgFilePath);
-            if (textAsset == null)
+
+            string resLibPath = Path.Combine(PACKAGE_PATH, "Editor", "AdmobNativeResLib");
+            if (!AssetDatabase.IsValidFolder(resLibPath))
             {
                 return;
             }
 
-            string localContent = File.ReadAllText(PROGUARD_PATH);
-            if (localContent.Contains(textAsset.text))
-            {
-                return;
-            }
-            
-            File.WriteAllText(PROGUARD_PATH, $"{localContent}\n{textAsset.text}");
+            AssetDatabase.CopyAsset(resLibPath, RES_LIB_PATH);
         }
-        
-        private static void CreateSettings()
+
+        static void CreateSettings()
         {
             string path = Path.Combine(RESOURCES_PATH, $"{Settings.FILE_NAME}.asset");
             if (File.Exists(path))

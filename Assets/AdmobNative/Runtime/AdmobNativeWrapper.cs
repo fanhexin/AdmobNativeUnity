@@ -1,6 +1,6 @@
 using System;
+using System.Linq;
 using AdmobNative.Common;
-using UnityEngine;
 #if UNITY_ANDROID
 using AdmobNative.Android;
 #elif UNITY_IOS
@@ -11,7 +11,7 @@ namespace AdmobNative
 {
     public class AdmobNativeWrapper : IAdmobNativeWrapper
     {
-        public event Action<int> OnAdLoadFailed
+        public event Action<string> OnAdLoadFailed
         {
             add => _wrapper.OnAdLoadFailed += value;
             remove => _wrapper.OnAdLoadFailed -= value;
@@ -29,10 +29,11 @@ namespace AdmobNative
 
         public AdmobNativeWrapper()
         {
+            var settings = Settings.instance;
 #if UNITY_ANDROID            
-            _wrapper = new AndroidAdmobNativeWrapper(Settings.instance.android.unitId);
+            _wrapper = new AndroidAdmobNativeWrapper(settings.unitIds, settings.numOfAdsToLoad);
 #elif UNITY_IOS
-            _wrapper = new iOSAdmobNativeWrapper(Settings.instance.iOS.unitId);
+            _wrapper = new iOSAdmobNativeWrapper(settings.unitIds, settings.numOfAdsToLoad);
 #endif
         }
         
@@ -49,11 +50,6 @@ namespace AdmobNative
         public void Show(int x, int y, int width, int height)
         {
             _wrapper.Show(x, y, width, height);
-        }
-
-        public void Show(int x, int y, int width, int height, Color color)
-        {
-            _wrapper.Show(x, y, width, height, color);    
         }
 
         public void Hide()

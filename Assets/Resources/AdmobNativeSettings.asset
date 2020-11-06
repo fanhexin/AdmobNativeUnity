@@ -12,9 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1d7aa9c518e954aaba478d0ebc247d93, type: 3}
   m_Name: AdmobNativeSettings
   m_EditorClassIdentifier: 
-  _android:
-    _appId: ca-app-pub-2510469495062387~7487931332
-    _unitId: ca-app-pub-3940256099942544/2247696110
-  _iOS:
-    _appId: ca-app-pub-2510469495062387~5983277976
-    _unitId: ca-app-pub-3940256099942544/3986624511
+  _appId: ca-app-pub-2510469495062387~5983277976
+  _unitIds:
+  - ca-app-pub-3940256099942544/3986624511
+  _numOfAdsToLoad: 5

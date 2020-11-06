@@ -16,7 +16,7 @@ public static class PListProcessor
 		plist.ReadFromFile(plistPath);
 
 		PlistElementDict rootDict = plist.root;
-		rootDict.SetString("GADApplicationIdentifier", Settings.instance.iOS.appId);
+		rootDict.SetString("GADApplicationIdentifier", Settings.instance.appId);
 		
 		plist.WriteToFile(plistPath);
     }

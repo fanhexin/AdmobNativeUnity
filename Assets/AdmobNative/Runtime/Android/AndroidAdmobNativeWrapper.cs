@@ -6,18 +6,18 @@ namespace AdmobNative.Android
 {
     public class AndroidAdmobNativeWrapper : IAdmobNativeWrapper
     {
-        public event Action<int> OnAdLoadFailed;
+        public event Action<string> OnAdLoadFailed;
         public event Action OnAdLoadSuccessful;
-        
-        private readonly AndroidJavaObject _adService;
+
+        readonly AndroidJavaObject _adService;
 
         public bool isReady => _adService.Call<bool>("isReady");
 
-        public AndroidAdmobNativeWrapper(string adUnitId)
+        public AndroidAdmobNativeWrapper(string[] unitIds, int numOfAdsToLoad)
         {
             AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             var curActivity = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity");
-            _adService = new AndroidJavaObject("com.hpc.admobnative.AdService", curActivity, adUnitId);
+            _adService = new AndroidJavaObject("com.hpc.admobnative.AdService", curActivity, unitIds, numOfAdsToLoad);
         }
 
         public void Init(Action completeCb)
@@ -35,12 +35,7 @@ namespace AdmobNative.Android
 
         public void Show(int x, int y, int width, int height)
         {
-            Show(x, y, width, height, Color.white);
-        }
-
-        public void Show(int x, int y, int width, int height, Color color)
-        {
-            _adService.Call("show", x, y, width, height, $"#{ColorUtility.ToHtmlStringRGB(color)}");
+            _adService.Call("show", x, y, width, height);
         }
 
         public void Hide()
@@ -50,7 +45,7 @@ namespace AdmobNative.Android
 
         class OnInitializationCompleteListener : AndroidJavaProxy 
         {
-            private readonly Action _callback;
+            readonly Action _callback;
 
             public OnInitializationCompleteListener(Action callback) 
                 : base("com.google.android.gms.ads.initialization.OnInitializationCompleteListener")
@@ -66,19 +61,19 @@ namespace AdmobNative.Android
 
         class AdLoadListener : AndroidJavaProxy 
         {
-            private readonly Action _onSucceedCb;
-            private readonly Action<int> _onErrorCb;
+            readonly Action _onSucceedCb;
+            readonly Action<string> _onErrorCb;
 
-            public AdLoadListener(Action onSucceedCb, Action<int> onErrorCb) 
+            public AdLoadListener(Action onSucceedCb, Action<string> onErrorCb) 
                 : base("com.hpc.admobnative.AdLoadListener")
             {
                 _onSucceedCb = onSucceedCb;
                 _onErrorCb = onErrorCb;
             }
 
-            void onError(int errorCode)
+            void onError(string errorMsg)
             {
-                _onErrorCb?.Invoke(errorCode);    
+                _onErrorCb?.Invoke(errorMsg);    
             }
 
             void onSucceed()
