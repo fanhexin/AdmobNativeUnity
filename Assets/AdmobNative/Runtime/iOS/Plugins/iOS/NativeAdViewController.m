@@ -59,9 +59,9 @@ bool show(float x, float y, float width, float height)
             posY:y];
 }
 
-bool hide()
+bool hide(bool consume)
 {
-    return [myAdController hideNative];
+    return [myAdController hideNative:consume];
 }
 
 void load()
@@ -118,7 +118,7 @@ numOfAdsToLoad:(int)numOfAdsToLoad
     return [_cachedAdArr count] > 0;
 }
 
--(Boolean) hideNative
+-(Boolean) hideNative:(Boolean)consume
 {
     if(!_isAdShowing || ![self IsNativeReady])
     {
@@ -126,7 +126,9 @@ numOfAdsToLoad:(int)numOfAdsToLoad
     }
     
     _isAdShowing = false;
-    [_cachedAdArr removeObjectAtIndex:0];
+    if (consume) {
+        [_cachedAdArr removeObjectAtIndex:0];
+    }
     [self.myView setHidden:YES];
     return true;
 }

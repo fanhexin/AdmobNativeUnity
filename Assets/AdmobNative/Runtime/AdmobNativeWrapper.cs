@@ -25,7 +25,7 @@ namespace AdmobNative
 
         public bool isReady => _wrapper.isReady;
 
-        private readonly IAdmobNativeWrapper _wrapper;
+        readonly IAdmobNativeWrapper _wrapper;
 
         public AdmobNativeWrapper()
         {
@@ -52,9 +52,9 @@ namespace AdmobNative
             _wrapper.Show(x, y, width, height);
         }
 
-        public void Hide()
+        public void Hide(bool consume = true)
         {
-            _wrapper.Hide();
+            _wrapper.Hide(consume);
         }
     }
 }

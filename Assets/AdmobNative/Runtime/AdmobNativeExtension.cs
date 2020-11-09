@@ -20,8 +20,8 @@ namespace AdmobNative
             float canvasWidth = canvas.rect.width;
             float canvasHeight = canvas.rect.height;
             
-            int x = (int) ((canvasWidth / 2 - Mathf.Abs(bottomLeft.x)) / canvasWidth * Screen.width);
-            int y = (int) ((canvasHeight / 2 - Mathf.Abs(bottomLeft.y)) / canvasHeight * Screen.height);
+            int x = (int) ((canvasWidth / 2 + bottomLeft.x) / canvasWidth * Screen.width);
+            int y = (int) ((canvasHeight / 2 + bottomLeft.y) / canvasHeight * Screen.height);
             int width = (int) (adPlaceholder.rect.width / canvasWidth * Screen.width);
             int height = (int) (adPlaceholder.rect.height / canvasHeight * Screen.height);
             

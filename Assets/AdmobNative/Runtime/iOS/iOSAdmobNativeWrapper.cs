@@ -42,9 +42,9 @@ namespace AdmobNative.iOS
             show(x, y, width, height);
         }
 
-        public void Hide()
+        public void Hide(bool consume = true)
         {
-            hide();
+            hide(consume);
         }
         
         [DllImport("__Internal")]
@@ -60,7 +60,7 @@ namespace AdmobNative.iOS
         static extern bool show(float x, float y, float width, float height);
 
         [DllImport("__Internal")]
-        static extern bool hide();    
+        static extern bool hide(bool consume);    
         
         [DllImport("__Internal")]
         static extern void add_event_listener(string goName, string loadSuccessfulTriggerName, string loadFailedTriggerName);

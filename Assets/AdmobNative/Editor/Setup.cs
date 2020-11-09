@@ -7,16 +7,19 @@ namespace AdmobNative.Editor
     [InitializeOnLoad]
     public class Setup
     {
-        const string PACKAGE_PATH = "Packages/com.hpc.admobnative";
+        const string PACKAGE_PATH = "Packages/com.hpcfun.admobnative";
         const string DEPENDENCIES_PATH = "Assets/Editor/AdmobNativeDependencies.xml";
-        const string RES_LIB_PATH = "Assets/Plugins/Android/AdmobNativeResLib";
         const string RESOURCES_PATH = "Assets/Resources";
         
         static Setup()
         {
             SetupDependencies();
-            CopyResLib();
             CreateSettings();
+
+            if (!Directory.Exists("Assets/Plugins/Android/AdmobNativeResLib"))
+            {
+                ImportPkg();
+            }
         }
 
         static void SetupDependencies()
@@ -39,21 +42,10 @@ namespace AdmobNative.Editor
             AssetDatabase.Refresh();
         }
 
-        static void CopyResLib()
+        static void ImportPkg()
         {
-            if (AssetDatabase.IsValidFolder(RES_LIB_PATH))
-            {
-                
-                return;
-            }
-
-            string resLibPath = Path.Combine(PACKAGE_PATH, "Editor", "AdmobNativeResLib");
-            if (!AssetDatabase.IsValidFolder(resLibPath))
-            {
-                return;
-            }
-
-            AssetDatabase.CopyAsset(resLibPath, RES_LIB_PATH);
+            string pkgPath = Path.Combine(PACKAGE_PATH, "Editor", "NativeAdViewResource.unitypackage");
+            AssetDatabase.ImportPackage(pkgPath, true);
         }
 
         static void CreateSettings()

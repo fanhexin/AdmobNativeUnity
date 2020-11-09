@@ -8,6 +8,7 @@ public class Test : MonoBehaviour
 
     [SerializeField] Button _showBtn;
     [SerializeField] Button _hideBtn;
+    [SerializeField] Button _hideAndConsumeBtn;
     [SerializeField] RectTransform _canvas;
 
     AdmobNativeWrapper _admobNative;
@@ -15,7 +16,8 @@ public class Test : MonoBehaviour
     void Start()
     {
         _showBtn.onClick.AddListener(OnShowBtnClick);
-        _hideBtn.onClick.AddListener(OnHideBtnClick);
+        _hideBtn.onClick.AddListener(() => _admobNative.Hide(false));
+        _hideAndConsumeBtn.onClick.AddListener(OnHideBtnClick);
         
         _admobNative = new AdmobNativeWrapper();     
         _admobNative.OnAdLoadSuccessful += () => Debug.Log("UnityAdmobNative ad load successful!");
@@ -26,7 +28,7 @@ public class Test : MonoBehaviour
             _admobNative.Load();
         });
         
-        InvokeRepeating("UpdateShowBtnState", 0, 2);
+        InvokeRepeating(nameof(UpdateShowBtnState), 0, 2);
     }
 
     void OnHideBtnClick()
