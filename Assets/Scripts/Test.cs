@@ -16,7 +16,7 @@ public class Test : MonoBehaviour
     void Start()
     {
         _showBtn.onClick.AddListener(OnShowBtnClick);
-        _hideBtn.onClick.AddListener(() => _admobNative.Hide(false));
+        _hideBtn.onClick.AddListener(() => _admobNative.Hide());
         _hideAndConsumeBtn.onClick.AddListener(OnHideBtnClick);
         
         _admobNative = new AdmobNativeWrapper();     

@@ -5,12 +5,17 @@
 static NSArray<NSString *> *_nativeAdUnit;
 static bool _videoStartMute;
 static int _numOfAdsToLoad;
-static int _unitIdIndex = 0;
+static int _curUnitIdIndex = 0;
+static int _loadStartIndex = 0;
+static int _loadEndIndex = 0;
+static int _maxPriceUnitIdIndex = 0;
 static int _successNum = 0;
 static int _failureNum = 0;
 static bool _isLoading = false;
+static NSMutableDictionary<NSString*, GADUnifiedNativeAd*> *_index2NativeAd;
+static NSMutableDictionary<NSString*, NSString*> *_unitId2ErrorMsg;
 
-static NSMutableArray<GADUnifiedNativeAd*> *_cachedAdArr;
+static GADUnifiedNativeAd *_nativeAd;
 static bool _isAdShowing;
 static NSString *_goName;
 static NSString *_loadSuccessfulTriggerName;
@@ -20,9 +25,9 @@ static NSString *_loadFailedTriggerName;
                               GADVideoControllerDelegate,
                               GADUnifiedNativeAdDelegate>
 
-@property(nonatomic, strong) GADAdLoader *adLoader;
 @property (nonatomic,strong) GADUnifiedNativeAdView *myView;
 @property(nonatomic, strong) NSLayoutConstraint *heightConstraint;
+@property(nonatomic, strong) NSMutableArray<GADAdLoader *> *adLoaders;
 
 @end
 
@@ -59,14 +64,14 @@ bool show(float x, float y, float width, float height)
             posY:y];
 }
 
-bool hide(bool consume)
+bool hide()
 {
-    return [myAdController hideNative:consume];
+    return [myAdController hideNative];
 }
 
 void load()
 {
-    if (_isLoading || is_ready()) {
+    if (_isLoading) {
         return;
     }
     _isLoading = true;
@@ -81,11 +86,6 @@ void add_event_listener(char* goName, char* loadSuccessfulTriggerName, char* loa
     _loadFailedTriggerName = [NSString stringWithUTF8String:loadFailedTriggerName];
 }
 
-void set_background_color(float r, float g, float b, float a)
-{
-
-}
-
 #pragma mark Objective C Methods
 
 -(void)initNative:(NSArray<NSString *> *)nativeAd
@@ -98,8 +98,14 @@ numOfAdsToLoad:(int)numOfAdsToLoad
     _videoStartMute = isVideoStartMute;
     _numOfAdsToLoad = numOfAdsToLoad;
     _isAdShowing = false;
-    _cachedAdArr = [NSMutableArray new];
     
+    _maxPriceUnitIdIndex = _nativeAdUnit.count;
+    _index2NativeAd = [NSMutableDictionary<NSString*, GADUnifiedNativeAd*> new];
+    _unitId2ErrorMsg = [NSMutableDictionary<NSString*, NSString*> new];
+    _curUnitIdIndex = _nativeAdUnit.count - 1;
+    [self resetLoadRange];
+    
+    self.adLoaders = [NSMutableArray new];
     NSBundle *bundle = [NSBundle mainBundle];
     if (![bundle pathForResource:@"UnifiedNativeAdView" ofType:@"nib"])
     {
@@ -115,10 +121,10 @@ numOfAdsToLoad:(int)numOfAdsToLoad
 
 -(Boolean) IsNativeReady
 {
-    return [_cachedAdArr count] > 0;
+    return _nativeAd != nil;
 }
 
--(Boolean) hideNative:(Boolean)consume
+-(Boolean) hideNative
 {
     if(!_isAdShowing || ![self IsNativeReady])
     {
@@ -126,9 +132,6 @@ numOfAdsToLoad:(int)numOfAdsToLoad
     }
     
     _isAdShowing = false;
-    if (consume) {
-        [_cachedAdArr removeObjectAtIndex:0];
-    }
     [self.myView setHidden:YES];
     return true;
 }
@@ -139,18 +142,21 @@ numOfAdsToLoad:(int)numOfAdsToLoad
     videoOptions.startMuted = _videoStartMute;
     
     GADMultipleAdsAdLoaderOptions *multipleAdsOptions = [[GADMultipleAdsAdLoaderOptions alloc] init];
-    multipleAdsOptions.numberOfAds = _numOfAdsToLoad;
+    multipleAdsOptions.numberOfAds = 1;
     
     GADNativeAdMediaAdLoaderOptions *mediaOptions = [[GADNativeAdMediaAdLoaderOptions alloc] init];
     mediaOptions.mediaAspectRatio = GADMediaAspectRatioLandscape;
         
-    self.adLoader = [[GADAdLoader alloc] initWithAdUnitID:_nativeAdUnit[_unitIdIndex]
-                                       rootViewController:self
-                                                  adTypes:@[ kGADAdLoaderAdTypeUnifiedNative ]
-                                                  options:@[ multipleAdsOptions, videoOptions, mediaOptions]];
-    
-    self.adLoader.delegate = self;
-    [self.adLoader loadRequest:[GADRequest request]];
+    for (int i = _loadStartIndex; i <= _loadEndIndex; i++) {
+        GADAdLoader *adLoader = [[GADAdLoader alloc] initWithAdUnitID:_nativeAdUnit[i]
+                                           rootViewController:self
+                                                      adTypes:@[ kGADAdLoaderAdTypeUnifiedNative ]
+                                                      options:@[ videoOptions, mediaOptions, multipleAdsOptions]];
+        
+        adLoader.delegate = self;
+        [adLoader loadRequest:[GADRequest request]];
+        [self.adLoaders addObject:adLoader];
+    }
 }
 
 -(Boolean)showNativeAd:(float) sizeX
@@ -171,8 +177,7 @@ numOfAdsToLoad:(int)numOfAdsToLoad
     //目标分辨率，当前设备需要根据分辨率调整字体等大小
     CGFloat adaptationScale = 1;
     
-    GADUnifiedNativeAd* curNativeAdData = _cachedAdArr[0];
-    if(curNativeAdData!= nil)
+    if(_nativeAd != nil)
     {
         _isAdShowing = true;
         [self.myView setHidden:NO];
@@ -190,25 +195,25 @@ numOfAdsToLoad:(int)numOfAdsToLoad
                 
         // Deactivate the height constraint that was set when the previous video ad loaded.
         self.heightConstraint.active = NO;
-        nativeAdView.nativeAd = curNativeAdData;
+        nativeAdView.nativeAd = _nativeAd;
         
-        curNativeAdData.delegate = self;
+        _nativeAd.delegate = self;
         
         //body view >= 90 character
         // font size 10
         [((UILabel *)nativeAdView.bodyView) setFont:[UIFont systemFontOfSize:bodyFontSize * adaptationScale]];
-        ((UILabel *)nativeAdView.bodyView).text = curNativeAdData.body;
-        nativeAdView.bodyView.hidden = curNativeAdData.body ? NO : YES;
+        ((UILabel *)nativeAdView.bodyView).text = _nativeAd.body;
+        nativeAdView.bodyView.hidden = _nativeAd.body ? NO : YES;
         
         //icon view
-        ((UIImageView *)nativeAdView.iconView).image = curNativeAdData.icon.image;
-        nativeAdView.iconView.hidden = curNativeAdData.icon ? NO : YES;
+        ((UIImageView *)nativeAdView.iconView).image = _nativeAd.icon.image;
+        nativeAdView.iconView.hidden = _nativeAd.icon ? NO : YES;
         
         
         //headlineView >=25 character
         //font size 13
         [((UILabel *)nativeAdView.headlineView) setFont:[UIFont systemFontOfSize: titleFontSize * adaptationScale]];
-        ((UILabel *)nativeAdView.headlineView).text = curNativeAdData.headline;
+        ((UILabel *)nativeAdView.headlineView).text = _nativeAd.headline;
         
         //callToActionView
 //        [((UIButton *)nativeAdView.callToActionView).titleLabel setFont:[UIFont systemFontOfSize:callToActionFontSize * adaptationScale]];
@@ -217,13 +222,13 @@ numOfAdsToLoad:(int)numOfAdsToLoad
 //        nativeAdView.callToActionView.hidden = curNativeAdData.callToAction ? NO : YES;
 
         //NSLog(@"curNativeAd.videoController.aspectRatio %f", ratio);  //广告内容宽高比
-        nativeAdView.mediaView.mediaContent = curNativeAdData.mediaContent;
+        nativeAdView.mediaView.mediaContent = _nativeAd.mediaContent;
                
-        if(curNativeAdData.mediaContent.hasVideoContent)
+        if(_nativeAd.mediaContent.hasVideoContent)
         {
             // By acting as the delegate to the GADVideoController, this ViewController
             // receives messages about events in the video lifecycle.
-            curNativeAdData.videoController.delegate = self;
+            _nativeAd.videoController.delegate = self;
         }
                
 
@@ -236,8 +241,8 @@ numOfAdsToLoad:(int)numOfAdsToLoad
 //        ((UILabel *)nativeAdView.priceView).text = curNativeAdData.price;
 //        nativeAdView.priceView.hidden = curNativeAdData.price ? NO : YES;
 
-        ((UILabel *)nativeAdView.advertiserView).text = curNativeAdData.advertiser;
-        nativeAdView.advertiserView.hidden = curNativeAdData.advertiser ? NO : YES;
+        ((UILabel *)nativeAdView.advertiserView).text = _nativeAd.advertiser;
+        nativeAdView.advertiserView.hidden = _nativeAd.advertiser ? NO : YES;
 
         // In order for the SDK to process touch events properly, user interaction
         // should be disabled.
@@ -252,15 +257,25 @@ numOfAdsToLoad:(int)numOfAdsToLoad
 - (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(GADRequestError *)error
 {
     ++_failureNum;
-    NSString* code = [NSString stringWithFormat:@"%ld", error.code];
+    _unitId2ErrorMsg[adLoader.adUnitID] = error.description;
     [self checkForComplete];
 }
 
 - (void)adLoader:(GADAdLoader *)adLoader didReceiveUnifiedNativeAd:(GADUnifiedNativeAd *)nativeAd
 {
+    int index = [_nativeAdUnit indexOfObject:adLoader.adUnitID];
+    if (_maxPriceUnitIdIndex > index) {
+        _maxPriceUnitIdIndex = index;
+    }
+    _index2NativeAd[[NSString stringWithFormat:@"%d", index]] = nativeAd;
     ++_successNum;
-    [_cachedAdArr addObject:nativeAd];
     [self checkForComplete];
+}
+
+- (void)resetLoadRange
+{
+    _loadStartIndex = 0;
+    _loadEndIndex = MIN(_numOfAdsToLoad - 1, _curUnitIdIndex);
 }
 
 - (void)reset
@@ -268,29 +283,40 @@ numOfAdsToLoad:(int)numOfAdsToLoad
     _successNum = 0;
     _failureNum = 0;
     _isLoading = false;
+    _maxPriceUnitIdIndex = _nativeAdUnit.count;
+    [self.adLoaders removeAllObjects];
 }
 
 - (void)checkForComplete
 {
-    if (_successNum + _failureNum != _numOfAdsToLoad) {
+    if ((_successNum + _failureNum) != (_loadEndIndex - _loadStartIndex + 1)) {
         return;
     }
     
     if (_successNum > 0) {
+        _curUnitIdIndex = _maxPriceUnitIdIndex;
         [self reset];
-        _unitIdIndex = 0;
+        [self resetLoadRange];
+        
+        NSString *indexStr = [NSString stringWithFormat:@"%d", _curUnitIdIndex];
+        _nativeAd = _index2NativeAd[indexStr];
         UnitySendMessage(_goName.UTF8String, _loadSuccessfulTriggerName.UTF8String, "");
+        [_index2NativeAd removeAllObjects];
         return;
     }
     
     [self reset];
     
-    if (++_unitIdIndex > [_nativeAdUnit count] - 1) {
-        _unitIdIndex = 0;
-        UnitySendMessage(_goName.UTF8String, _loadFailedTriggerName.UTF8String, "");
+    _loadStartIndex = _loadEndIndex + 1;
+    if (_loadStartIndex > _curUnitIdIndex)
+    {
+        [self resetLoadRange];
+        UnitySendMessage(_goName.UTF8String, _loadFailedTriggerName.UTF8String, _unitId2ErrorMsg.description.UTF8String);
+        [_unitId2ErrorMsg removeAllObjects];
         return;
     }
     
+    _loadEndIndex = MIN(_loadStartIndex + _numOfAdsToLoad, _curUnitIdIndex);
     [self requestAd];
 }
 

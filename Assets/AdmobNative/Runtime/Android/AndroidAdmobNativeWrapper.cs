@@ -38,9 +38,9 @@ namespace AdmobNative.Android
             _adService.Call("show", x, y, width, height);
         }
 
-        public void Hide(bool consume = true)
+        public void Hide()
         {
-            _adService.Call("hide", consume);    
+            _adService.Call("hide");    
         }
 
         class OnInitializationCompleteListener : AndroidJavaProxy 

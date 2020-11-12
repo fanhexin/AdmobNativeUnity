@@ -52,9 +52,9 @@ namespace AdmobNative
             _wrapper.Show(x, y, width, height);
         }
 
-        public void Hide(bool consume = true)
+        public void Hide()
         {
-            _wrapper.Hide(consume);
+            _wrapper.Hide();
         }
     }
 }

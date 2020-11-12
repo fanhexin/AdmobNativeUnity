@@ -11,6 +11,6 @@ namespace AdmobNative.Common
         void Init(Action completeCb);
         void Load();
         void Show(int x, int y, int width, int height);
-        void Hide(bool consume = true);
+        void Hide();
     }
 }
