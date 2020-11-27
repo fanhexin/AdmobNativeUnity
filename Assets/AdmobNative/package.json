@@ -1,7 +1,7 @@
 {
     "name": "com.hpcfun.admobnative",
     "displayName": "AdmobNative",
-    "version": "1.0.4",
+    "version": "1.0.7",
     "unity": "2018.4",
     "description": "Admob Native Ad's wrapper.",
     "keywords": ["admob", "nativead", "ad"]

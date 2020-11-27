@@ -23,9 +23,11 @@ namespace AdmobNative
         [SerializeField] string _appId;
         [SerializeField] string[] _unitIds;
         [SerializeField] int _numOfAdsToLoad;
+        [SerializeField] int _timeout;
 
         public string appId => _appId;
         public string[] unitIds => _unitIds;
         public int numOfAdsToLoad => _numOfAdsToLoad;
+        public int timeout => _timeout;
     }
 }

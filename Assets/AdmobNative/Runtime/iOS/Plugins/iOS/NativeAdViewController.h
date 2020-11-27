@@ -1,6 +1,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NativeAdViewController : UIViewController
+@interface NativeAdViewController : NSObject
 
 @end

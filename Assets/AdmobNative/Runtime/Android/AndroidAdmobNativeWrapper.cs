@@ -13,11 +13,11 @@ namespace AdmobNative.Android
 
         public bool isReady => _adService.Call<bool>("isReady");
 
-        public AndroidAdmobNativeWrapper(string[] unitIds, int numOfAdsToLoad)
+        public AndroidAdmobNativeWrapper(string[] unitIds, int numOfAdsToLoad, int timeout)
         {
             AndroidJavaClass androidJavaClass = new AndroidJavaClass("com.unity3d.player.UnityPlayer");
             var curActivity = androidJavaClass.GetStatic<AndroidJavaObject>("currentActivity");
-            _adService = new AndroidJavaObject("com.hpc.admobnative.AdService", curActivity, unitIds, numOfAdsToLoad);
+            _adService = new AndroidJavaObject("com.hpc.admobnative.AdService", curActivity, unitIds, numOfAdsToLoad, timeout);
         }
 
         public void Init(Action completeCb)
