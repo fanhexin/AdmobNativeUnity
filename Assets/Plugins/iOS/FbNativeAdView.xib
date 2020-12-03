@@ -14,9 +14,9 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNp-yu-K4i" userLabel="adCoverMediaView" customClass="FBMediaView">
-                    <rect key="frame" x="0.0" y="0.0" width="308" height="186"/>
+                    <rect key="frame" x="0.0" y="0.0" width="308" height="184"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="186" id="30y-9W-jQL"/>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="160" id="Bp4-4r-mCd"/>
                     </constraints>
                 </view>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="AD" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="lp1-oz-XOs">
@@ -41,6 +41,7 @@
                     <rect key="frame" x="0.0" y="244" width="308" height="30"/>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstAttribute="width" constant="308" id="8v0-Wj-Vlm"/>
                         <constraint firstAttribute="height" constant="30" id="I2J-ib-ulr"/>
                     </constraints>
                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
@@ -50,30 +51,33 @@
                     </state>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iNa-bH-h1m" userLabel="adIconImageView">
-                    <rect key="frame" x="0.0" y="196" width="40" height="40"/>
+                    <rect key="frame" x="0.0" y="194" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="Xtw-P3-SfI"/>
                         <constraint firstAttribute="height" constant="40" id="vkg-dy-NF4"/>
                     </constraints>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rJq-Pu-FDy">
-                    <rect key="frame" x="45" y="196" width="263" height="38"/>
+                    <rect key="frame" x="45" y="194" width="263" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="HeadlineHeadline" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beR-eV-DX1" userLabel="adTitleLabel">
-                            <rect key="frame" x="0.0" y="0.0" width="263" height="26"/>
+                            <rect key="frame" x="0.0" y="0.0" width="263" height="28"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="14"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                             <size key="shadowOffset" width="0.0" height="0.0"/>
                         </label>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Body that is really really long and can take up to two " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="8" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="PEQ-D9-2Vv" userLabel="adBodyLabel">
-                            <rect key="frame" x="0.0" y="26" width="263" height="12"/>
+                            <rect key="frame" x="0.0" y="28" width="263" height="12"/>
                             <color key="tintColor" white="0.79905108449999995" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <fontDescription key="fontDescription" type="system" pointSize="10"/>
                             <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <nil key="highlightedColor"/>
                         </label>
                     </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="40" id="fsI-dR-lzi"/>
+                    </constraints>
                 </stackView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -82,10 +86,10 @@
                 <constraint firstItem="lp1-oz-XOs" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="2l7-XU-6mU"/>
                 <constraint firstItem="kkg-pK-79g" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="438-hg-Erm"/>
                 <constraint firstItem="rJq-Pu-FDy" firstAttribute="leading" secondItem="iNa-bH-h1m" secondAttribute="trailing" constant="5" id="9Bj-cD-yWH"/>
+                <constraint firstItem="E5w-YA-UY8" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="Dzz-o1-Kdx"/>
                 <constraint firstItem="rJq-Pu-FDy" firstAttribute="top" secondItem="fNp-yu-K4i" secondAttribute="bottom" constant="10" id="EcD-4m-1qR"/>
                 <constraint firstItem="fNp-yu-K4i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="FGv-cx-vim"/>
                 <constraint firstItem="iNa-bH-h1m" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GJp-Nh-uSz"/>
-                <constraint firstItem="E5w-YA-UY8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="J1x-D8-xDq"/>
                 <constraint firstAttribute="trailing" secondItem="kkg-pK-79g" secondAttribute="trailing" id="KIj-q7-pxz"/>
                 <constraint firstAttribute="trailing" secondItem="fNp-yu-K4i" secondAttribute="trailing" id="Qoy-XU-wix"/>
                 <constraint firstItem="iNa-bH-h1m" firstAttribute="top" secondItem="fNp-yu-K4i" secondAttribute="bottom" constant="10" id="Uck-25-kCp"/>
@@ -94,7 +98,6 @@
                 <constraint firstItem="lp1-oz-XOs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eYw-qK-X1O"/>
                 <constraint firstAttribute="bottom" secondItem="E5w-YA-UY8" secondAttribute="bottom" id="iOG-cU-ZIB"/>
                 <constraint firstItem="E5w-YA-UY8" firstAttribute="top" secondItem="rJq-Pu-FDy" secondAttribute="bottom" constant="10" id="vsI-cP-Yc9"/>
-                <constraint firstAttribute="trailing" secondItem="E5w-YA-UY8" secondAttribute="trailing" id="xdd-KA-R8V"/>
                 <constraint firstItem="iNa-bH-h1m" firstAttribute="top" secondItem="fNp-yu-K4i" secondAttribute="bottom" constant="10" id="yOa-46-iFB"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
