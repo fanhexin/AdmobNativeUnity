@@ -25,10 +25,10 @@ static NSMutableDictionary<NSString *, UIView *> *adViews;
         if (adView == nil) {
             adView = [self createView:xib];
             adViews[xib] = adView;
+            adView.hidden = YES;
+            
             [UnityGetGLView() addSubview:adView];
         }
-
-        [self hide];
     }
     return self;
 }

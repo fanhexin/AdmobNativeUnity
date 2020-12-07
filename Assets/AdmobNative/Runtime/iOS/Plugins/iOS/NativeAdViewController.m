@@ -180,10 +180,6 @@ void add_event_listener(char *goName, char *loadSuccessfulTriggerName, char *loa
 
         NSString *indexStr = [NSString stringWithFormat:@"%d", _curUnitIdIndex];
         _nativeAd = _index2NativeAd[indexStr];
-        // 替换nativeAd时如果正处于显示状态，原来的nativeAd会被销毁，视图消失，需要重新show一下新的
-        if (_isAdShowing) {
-            [_nativeAd x:self.x y:self.y width:self.width height:self.height];
-        }
         UnitySendMessage(_goName.UTF8String, _loadSuccessfulTriggerName.UTF8String, "");
         [_index2NativeAd removeAllObjects];
         return;
