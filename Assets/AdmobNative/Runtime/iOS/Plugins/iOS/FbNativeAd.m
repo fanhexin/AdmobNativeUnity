@@ -39,7 +39,7 @@
                                mediaView:nativeAdView.adCoverMediaView
                            iconImageView:nativeAdView.adIconImageView
                           viewController:UnityGetGLViewController()
-                          clickableViews:@[nativeAdView.adCallToActionButton, nativeAdView.adCoverMediaView]];
+                          clickableViews:@[nativeAdView.adCallToActionButton]];
 }
 
 @end
