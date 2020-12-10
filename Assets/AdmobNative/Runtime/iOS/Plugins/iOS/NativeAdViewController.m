@@ -19,7 +19,6 @@ static bool _isLoading = false;
 static NSMutableDictionary<NSString *, NativeAdBase *> *_index2NativeAd;
 static NSMutableDictionary<NSString *, NSString *> *_unitId2ErrorMsg;
 
-static NativeAdBase *_nativeAd;
 static bool _isAdShowing;
 static NSString *_goName;
 static NSString *_loadSuccessfulTriggerName;
@@ -33,6 +32,8 @@ static NSString *_loadFailedTriggerName;
 @property (nonatomic) int y;
 @property (nonatomic) int width;
 @property (nonatomic) int height;
+@property(nonatomic, strong) NativeAdBase *foregroundNativeAd;
+@property(nonatomic, strong) NativeAdBase *backgroundNativeAd;
 
 @end
 
@@ -115,7 +116,17 @@ void add_event_listener(char *goName, char *loadSuccessfulTriggerName, char *loa
 }
 
 - (Boolean)IsNativeReady {
-    return _nativeAd != nil;
+    return self.foregroundNativeAd != nil;
+}
+
+- (void)swapNativeAd {
+    if (self.backgroundNativeAd == nil) {
+        return;
+    }
+    
+    [self.foregroundNativeAd destroy];
+    self.foregroundNativeAd = self.backgroundNativeAd;
+    self.backgroundNativeAd = nil;
 }
 
 - (Boolean)hideNative {
@@ -124,7 +135,8 @@ void add_event_listener(char *goName, char *loadSuccessfulTriggerName, char *loa
     }
 
     _isAdShowing = false;
-    [_nativeAd hide];
+    [self.foregroundNativeAd hide];
+    [self swapNativeAd];
     return true;
 }
 
@@ -149,7 +161,7 @@ void add_event_listener(char *goName, char *loadSuccessfulTriggerName, char *loa
     self.y = posY;
     self.width = sizeX;
     self.height = sizeY;
-    [_nativeAd x:posX y:posY width:sizeX height:sizeY];
+    [self.foregroundNativeAd x:posX y:posY width:sizeX height:sizeY];
     _isAdShowing = true;
     return true;
 }
@@ -179,7 +191,14 @@ void add_event_listener(char *goName, char *loadSuccessfulTriggerName, char *loa
         [self resetLoadRange];
 
         NSString *indexStr = [NSString stringWithFormat:@"%d", _curUnitIdIndex];
-        _nativeAd = _index2NativeAd[indexStr];
+        NativeAdBase *nativeAd = _index2NativeAd[indexStr];
+        if (self.foregroundNativeAd == nil || !_isAdShowing) {
+            [self.foregroundNativeAd destroy];
+            self.foregroundNativeAd = nativeAd;
+        } else {
+            [self.backgroundNativeAd destroy];
+            self.backgroundNativeAd = nativeAd;
+        }
         UnitySendMessage(_goName.UTF8String, _loadSuccessfulTriggerName.UTF8String, "");
         [_index2NativeAd removeAllObjects];
         return;
