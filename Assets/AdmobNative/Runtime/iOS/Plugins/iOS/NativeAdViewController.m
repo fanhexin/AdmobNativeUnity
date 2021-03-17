@@ -26,7 +26,7 @@ static NSString *_loadFailedTriggerName;
 
 @interface NativeAdViewController () <GADVideoControllerDelegate, NativeAdLoadResult>
 
-@property(nonatomic, strong) GADUnifiedNativeAdView *myView;
+@property(nonatomic, strong) GADNativeAdView *myView;
 @property(nonatomic, strong) NSLayoutConstraint *heightConstraint;
 @property (nonatomic) int x;
 @property (nonatomic) int y;

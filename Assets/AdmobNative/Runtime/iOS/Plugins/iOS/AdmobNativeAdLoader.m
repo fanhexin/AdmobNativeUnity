@@ -6,7 +6,7 @@
 #import "AdmobNativeAdLoader.h"
 #import "AdmobNativeAd.h"
 
-@interface AdmobNativeAdLoader()<GADUnifiedNativeAdLoaderDelegate>
+@interface AdmobNativeAdLoader()<GADNativeAdLoaderDelegate>
 @property (nonatomic, strong) GADAdLoader *adLoader;
 @end
 
@@ -24,23 +24,23 @@
 
     self.adLoader = [[GADAdLoader alloc] initWithAdUnitID:self.unitId
                                                rootViewController:UnityGetGLViewController()
-                                                          adTypes:@[ kGADAdLoaderAdTypeUnifiedNative ]
+                                                          adTypes:@[ kGADAdLoaderAdTypeNative ]
                                                           options:@[ videoOptions, mediaOptions, multipleAdsOptions]];
 
     self.adLoader.delegate = self;
     [self.adLoader loadRequest:[GADRequest request]];
 }
 
-- (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(GADRequestError *)error {
-    [self onAdLoadFail:self errorMsg:error.description];
-}
-
-- (void)adLoader:(GADAdLoader *)adLoader didReceiveUnifiedNativeAd:(GADUnifiedNativeAd *)nativeAd
-{
+- (void)adLoader:(nonnull GADAdLoader *)adLoader didReceiveNativeAd:(nonnull GADNativeAd *)nativeAd {
     [self onAdLoadSuccess:self nativeAd:[AdmobNativeAd.alloc initWithAd:nativeAd xibName:@"AdmobNativeAdView"]];
 }
 
-- (void)adLoaderDidFinishLoading:(GADAdLoader *)adLoader {
+- (void)adLoader:(nonnull GADAdLoader *)adLoader didFailToReceiveAdWithError:(nonnull NSError *)error {
+    [self onAdLoadFail:self errorMsg:error.description];
+}
+
+- (void)adLoaderDidFinishLoading:(GADAdLoader *)adLoader
+{
     self.adLoader = nil;
 }
 

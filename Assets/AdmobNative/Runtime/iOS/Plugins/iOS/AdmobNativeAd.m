@@ -5,15 +5,15 @@
 #import "AdmobNativeAd.h"
 #import <GoogleMobileAds/GoogleMobileAds.h>
 
-@interface AdmobNativeAd() <GADUnifiedNativeAdDelegate>
+@interface AdmobNativeAd() <GADNativeAdDelegate>
 @end
 
 @implementation AdmobNativeAd
 - (void)populateNativeAdView:(UIView *)adView {
     [super populateNativeAdView:adView];
 
-    GADUnifiedNativeAdView *nativeAdView = (GADUnifiedNativeAdView *) adView;
-    GADUnifiedNativeAd *nativeAd = (GADUnifiedNativeAd *)self.ad;
+    GADNativeAdView *nativeAdView = (GADNativeAdView *) adView;
+    GADNativeAd *nativeAd = (GADNativeAd *)self.ad;
 
     if (nativeAd == nil)
         return;

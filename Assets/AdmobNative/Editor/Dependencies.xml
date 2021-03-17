@@ -6,12 +6,12 @@
         <androidPackage spec="com.facebook.android:audience-network-sdk:6.+" />
     </androidPackages>
     <iosPods>
-        <iosPod name="Google-Mobile-Ads-SDK" version="~> 7.53">
+        <iosPod name="Google-Mobile-Ads-SDK" version="~> 8.0.0">
             <sources>
                 <source>https://github.com/CocoaPods/Specs</source>
             </sources>
         </iosPod>
-        <iosPod name="FBAudienceNetwork" version="~> 6.2.0">
+        <iosPod name="FBAudienceNetwork" version="~> 6.3.0">
             <sources>
                 <source>https://github.com/CocoaPods/Specs</source>
             </sources>
