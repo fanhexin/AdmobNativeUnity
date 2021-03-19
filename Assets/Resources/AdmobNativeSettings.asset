@@ -19,3 +19,4 @@ MonoBehaviour:
   - ca-app-pub-3940256099942544/2521693316
   _numOfAdsToLoad: 3
   _timeout: 30
+  _loadIntervalMillis: 20

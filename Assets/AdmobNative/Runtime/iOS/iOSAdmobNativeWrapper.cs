@@ -10,15 +10,17 @@ namespace AdmobNative.iOS
         readonly string[] _unitIds;
         readonly int _numOfAdsToLoad;
         readonly int _timeout;
+        readonly int _loadIntervalMillis;
         public event Action<string> OnAdLoadFailed;
         public event Action OnAdLoadSuccessful;
         public bool isReady => is_ready();
 
-        public iOSAdmobNativeWrapper(string[] unitIds, int numOfAdsToLoad, int timeout)
+        public iOSAdmobNativeWrapper(string[] unitIds, int numOfAdsToLoad, int timeout, int loadIntervalMillis)
         {
             _unitIds = unitIds;
             _numOfAdsToLoad = numOfAdsToLoad;
             _timeout = timeout;
+            _loadIntervalMillis = loadIntervalMillis;
             var go = new GameObject("iOSAdmobNativeEventListener");
             var eventListener = go.AddComponent<EventListener>();
             eventListener.OnAdLoadFailed += errorCode => OnAdLoadFailed?.Invoke(errorCode);
@@ -30,7 +32,7 @@ namespace AdmobNative.iOS
         
         public void Init(Action completeCb)
         {
-            init(string.Join(",", _unitIds), true, _numOfAdsToLoad, _timeout);
+            init(string.Join(",", _unitIds), true, _numOfAdsToLoad, _timeout, _loadIntervalMillis);
             completeCb?.Invoke(); 
         }
 
@@ -50,7 +52,7 @@ namespace AdmobNative.iOS
         }
         
         [DllImport("__Internal")]
-        static extern void init(string unitIds, bool videoMuteAtBegin, int numOfAdsToLoad, int timeout);
+        static extern void init(string unitIds, bool videoMuteAtBegin, int numOfAdsToLoad, int timeout, int loadIntervalMillis);
 
         [DllImport("__Internal")]
         static extern bool is_ready();

@@ -31,9 +31,9 @@ namespace AdmobNative
         {
             var settings = Settings.instance;
 #if UNITY_ANDROID            
-            _wrapper = new AndroidAdmobNativeWrapper(settings.unitIds, settings.numOfAdsToLoad, settings.timeout);
+            _wrapper = new AndroidAdmobNativeWrapper(settings.unitIds, settings.numOfAdsToLoad, settings.timeout, settings.loadIntervalMillis);
 #elif UNITY_IOS
-            _wrapper = new iOSAdmobNativeWrapper(settings.unitIds, settings.numOfAdsToLoad, settings.timeout);
+            _wrapper = new iOSAdmobNativeWrapper(settings.unitIds, settings.numOfAdsToLoad, settings.timeout, settings.loadIntervalMillis);
 #endif
         }
         

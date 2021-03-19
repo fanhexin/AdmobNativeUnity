@@ -9,6 +9,7 @@
 static NSMutableArray<NativeAdLoaderBase *> *_nativeAdLoaders;
 static bool _videoStartMute;
 static int _numOfAdsToLoad;
+static int _loadIntervalMillis;
 static int _curUnitIdIndex = 0;
 static int _loadStartIndex = 0;
 static int _loadEndIndex = 0;
@@ -43,12 +44,13 @@ static NativeAdViewController *myAdController;
 
 #pragma mark Unity Methods
 
-void init(char *unitIds, bool videoMuteAtBegin, int numOfAdsToLoad, int timeout) {
+void init(char *unitIds, bool videoMuteAtBegin, int numOfAdsToLoad, int timeout, int loadIntervalMillis) {
     if (!myAdController)
         myAdController = [NativeAdViewController new];
     NSString *unitIdsStr = [NSString stringWithUTF8String:unitIds];
     NSArray<NSString *> *unitIdArr = [unitIdsStr componentsSeparatedByString:@","];
 
+    _loadIntervalMillis = loadIntervalMillis;
     [myAdController initNative:unitIdArr
               isVideoStartMute:videoMuteAtBegin
                 numOfAdsToLoad:numOfAdsToLoad
@@ -145,7 +147,8 @@ void add_event_listener(char *goName, char *loadSuccessfulTriggerName, char *loa
         NativeAdLoaderBase *loader = _nativeAdLoaders[i];
         loader.index = i;
         loader.delegate = self;
-        [loader load];
+        NSTimeInterval interval = (NSTimeInterval)(_loadIntervalMillis * (i - _loadStartIndex)) / 1000.0;
+        [loader performSelector:@selector(load) withObject:nil afterDelay: interval];
     }
 }
 
