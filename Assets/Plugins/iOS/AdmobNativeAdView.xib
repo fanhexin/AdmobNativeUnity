@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="2320" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,7 +14,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iNa-bH-h1m">
-                    <rect key="frame" x="0.0" y="194" width="40" height="40"/>
+                    <rect key="frame" x="0.0" y="192.66666666666666" width="40" height="40"/>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="3Im-po-bxM"/>
@@ -22,7 +22,7 @@
                     </constraints>
                 </imageView>
                 <view contentMode="scaleAspectFit" translatesAutoresizingMaskIntoConstraints="NO" id="fNp-yu-K4i" customClass="GADMediaView">
-                    <rect key="frame" x="0.0" y="0.0" width="308" height="184"/>
+                    <rect key="frame" x="0.0" y="0.0" width="308" height="182.66666666666666"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="160" id="Y5L-pP-SFg"/>
                     </constraints>
@@ -47,11 +47,10 @@
                     <nil key="highlightedColor"/>
                 </label>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="E5w-YA-UY8">
-                    <rect key="frame" x="0.0" y="244" width="308" height="30"/>
+                    <rect key="frame" x="0.0" y="242.66666666666666" width="308" height="31.333333333333343"/>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="height" constant="30" id="AWb-q3-XdY"/>
-                        <constraint firstAttribute="width" constant="308" id="aug-kc-3Y9"/>
+                        <constraint firstAttribute="width" secondItem="E5w-YA-UY8" secondAttribute="height" multiplier="247:25" id="obu-eU-IQ9"/>
                     </constraints>
                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
                     <color key="tintColor" white="0.79905108450821916" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -60,7 +59,7 @@
                     </state>
                 </button>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="4NS-MK-ak6">
-                    <rect key="frame" x="45" y="194" width="263" height="40"/>
+                    <rect key="frame" x="45" y="192.66666666666666" width="263" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="HeadlineHeadline" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beR-eV-DX1">
                             <rect key="frame" x="0.0" y="0.0" width="263" height="28"/>
@@ -91,6 +90,7 @@
                 <constraint firstItem="lp1-oz-XOs" firstAttribute="left" secondItem="iN0-l3-epB" secondAttribute="left" id="BpX-yC-PZG"/>
                 <constraint firstItem="fNp-yu-K4i" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Cko-8s-HAG"/>
                 <constraint firstAttribute="bottom" secondItem="E5w-YA-UY8" secondAttribute="bottom" id="GpZ-mb-90X"/>
+                <constraint firstItem="E5w-YA-UY8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="T9M-lm-86o"/>
                 <constraint firstAttribute="trailing" secondItem="fNp-yu-K4i" secondAttribute="trailing" id="WMi-b4-pr8"/>
                 <constraint firstItem="GTT-Yh-eSq" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Xpg-XM-kH2"/>
                 <constraint firstItem="iNa-bH-h1m" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="bJP-bB-xjt"/>
@@ -100,6 +100,7 @@
                 <constraint firstItem="4NS-MK-ak6" firstAttribute="top" secondItem="fNp-yu-K4i" secondAttribute="bottom" constant="10" id="i2k-3l-3EH"/>
                 <constraint firstAttribute="trailing" secondItem="4NS-MK-ak6" secondAttribute="trailing" id="lXg-zu-L1y"/>
                 <constraint firstItem="E5w-YA-UY8" firstAttribute="top" secondItem="4NS-MK-ak6" secondAttribute="bottom" constant="10" id="nbK-bq-iBg"/>
+                <constraint firstAttribute="trailing" secondItem="E5w-YA-UY8" secondAttribute="trailing" id="xJr-d3-7W0"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
@@ -114,7 +115,7 @@
         </view>
     </objects>
     <resources>
-        <image name="call_to_action.png" width="308" height="30"/>
+        <image name="call_to_action.png" width="247" height="25"/>
         <systemColor name="darkTextColor">
             <color white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

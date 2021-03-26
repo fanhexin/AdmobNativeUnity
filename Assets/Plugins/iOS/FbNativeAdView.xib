@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES">
     <device id="retina6_5" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment version="2320" identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,7 +14,7 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fNp-yu-K4i" userLabel="adCoverMediaView" customClass="FBMediaView">
-                    <rect key="frame" x="0.0" y="0.0" width="308" height="184"/>
+                    <rect key="frame" x="0.0" y="0.0" width="308" height="182.66666666666666"/>
                     <constraints>
                         <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="160" id="Bp4-4r-mCd"/>
                     </constraints>
@@ -38,11 +38,10 @@
                     </constraints>
                 </view>
                 <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="wordWrap" translatesAutoresizingMaskIntoConstraints="NO" id="E5w-YA-UY8" userLabel="adCallToActionButton">
-                    <rect key="frame" x="0.0" y="244" width="308" height="30"/>
+                    <rect key="frame" x="0.0" y="242.66666666666666" width="308" height="31.333333333333343"/>
                     <color key="backgroundColor" white="1" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
-                        <constraint firstAttribute="width" constant="308" id="8v0-Wj-Vlm"/>
-                        <constraint firstAttribute="height" constant="30" id="I2J-ib-ulr"/>
+                        <constraint firstAttribute="width" secondItem="E5w-YA-UY8" secondAttribute="height" multiplier="247:25" id="5sv-20-RaN"/>
                     </constraints>
                     <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="16"/>
                     <color key="tintColor" white="0.79905108450821916" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -51,14 +50,14 @@
                     </state>
                 </button>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="iNa-bH-h1m" userLabel="adIconImageView">
-                    <rect key="frame" x="0.0" y="194" width="40" height="40"/>
+                    <rect key="frame" x="0.0" y="192.66666666666666" width="40" height="40"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="40" id="Xtw-P3-SfI"/>
                         <constraint firstAttribute="height" constant="40" id="vkg-dy-NF4"/>
                     </constraints>
                 </imageView>
                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="rJq-Pu-FDy">
-                    <rect key="frame" x="45" y="194" width="263" height="40"/>
+                    <rect key="frame" x="45" y="192.66666666666666" width="263" height="40"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalCompressionResistancePriority="751" text="HeadlineHeadline" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumFontSize="10" adjustsLetterSpacingToFitWidth="YES" adjustsFontForContentSizeCategory="YES" translatesAutoresizingMaskIntoConstraints="NO" id="beR-eV-DX1" userLabel="adTitleLabel">
                             <rect key="frame" x="0.0" y="0.0" width="263" height="28"/>
@@ -92,11 +91,13 @@
                 <constraint firstItem="iNa-bH-h1m" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="GJp-Nh-uSz"/>
                 <constraint firstAttribute="trailing" secondItem="kkg-pK-79g" secondAttribute="trailing" id="KIj-q7-pxz"/>
                 <constraint firstAttribute="trailing" secondItem="fNp-yu-K4i" secondAttribute="trailing" id="Qoy-XU-wix"/>
+                <constraint firstAttribute="trailing" secondItem="E5w-YA-UY8" secondAttribute="trailing" id="T8F-Wt-30p"/>
                 <constraint firstItem="iNa-bH-h1m" firstAttribute="top" secondItem="fNp-yu-K4i" secondAttribute="bottom" constant="10" id="Uck-25-kCp"/>
                 <constraint firstAttribute="trailing" secondItem="rJq-Pu-FDy" secondAttribute="trailing" id="Z8X-PD-qFK"/>
                 <constraint firstItem="fNp-yu-K4i" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="cJm-Bd-JjQ"/>
                 <constraint firstItem="lp1-oz-XOs" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eYw-qK-X1O"/>
                 <constraint firstAttribute="bottom" secondItem="E5w-YA-UY8" secondAttribute="bottom" id="iOG-cU-ZIB"/>
+                <constraint firstItem="E5w-YA-UY8" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="p5j-gK-76K"/>
                 <constraint firstItem="E5w-YA-UY8" firstAttribute="top" secondItem="rJq-Pu-FDy" secondAttribute="bottom" constant="10" id="vsI-cP-Yc9"/>
                 <constraint firstItem="iNa-bH-h1m" firstAttribute="top" secondItem="fNp-yu-K4i" secondAttribute="bottom" constant="10" id="yOa-46-iFB"/>
             </constraints>
@@ -113,6 +114,6 @@
         </view>
     </objects>
     <resources>
-        <image name="call_to_action.png" width="308" height="30"/>
+        <image name="call_to_action.png" width="247" height="25"/>
     </resources>
 </document>
